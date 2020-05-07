@@ -2,6 +2,7 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import "./App.css";
+import ImagesComponent from "./ImagesComponent";
 
 const App = () => {
   const [toggle, setToggle] = React.useState(false);
