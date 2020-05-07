@@ -1,5 +1,6 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
+import { BrowserRouter as Router, Switch, Route, Link, useHistory } from "react-router-dom";
 
 import "./App.css";
 import ImagesComponent from "./ImagesComponent";
@@ -9,6 +10,8 @@ const App = () => {
   const [listFolders, setListFolders] = React.useState([]);
   const [folderTitleInput, setFolderTitleInput] = React.useState("");
   const [imagesInput, setImagesInput] = React.useState("");
+  const history = useHistory()
+
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -34,33 +37,56 @@ const App = () => {
   };
 
   const deleteFolder = (id) => {
-    const newArray= listFolders.filter((folder) => folder.id !== id)
+    const newArray = listFolders.filter((folder) => folder.id !== id);
     setListFolders(newArray);
-  }
+  };
+
+  const editFolderName = (folder) => {
+    const newArray = listFolders.map((item) =>
+      item.id === folder.id ? folder : item
+    );
+    setListFolders(newArray);
+  };
 
   return (
     <div className="App">
-      <p>Folders</p>
-      <button onClick={handleToggle}>Add folder</button>
-      {toggle ? (
-        <div>
-          <input type="text" value={folderTitleInput} onKeyDown={addFolder} onChange={handleTitleInput} />
-          <div>
-            {listFolders.map((folder) => (
+      <Switch>
+        <Route exact path="/">
+          <p>Folders</p>
+          <button onClick={handleToggle}>Add folder</button>
+          {toggle ? (
+            <div>
+              <input
+                type="text"
+                value={folderTitleInput}
+                onKeyDown={addFolder}
+                onChange={handleTitleInput}
+              />
               <div>
-                <p className="list-item" key={folder.id}>
-                  {folder.text}
-                </p>
-                <button>edit</button>
-                <button onClick={() => deleteFolder(folder.id)}>delete</button>
-                <button>enter</button>
+                {listFolders.map((folder, id) => (
+                  <div key={id}>
+                    <p className="list-item" key={folder.id}>
+                      {folder.text}
+                    </p>
+                    <button onClick={() => editFolderName(folder.id)}>
+                      edit
+                    </button>
+                    <button onClick={() => deleteFolder(folder.id)}>
+                      delete
+                    </button>
+                    <button onClick={() => history.push("/images", { folder })}>enter</button>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
+            </div>
+          ) : (
+            ""
+          )}
+        </Route>
+        <Route path="/images">
+          <ImagesComponent />
+        </Route>
+      </Switch>
     </div>
   );
 };
