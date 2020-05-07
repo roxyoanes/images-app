@@ -1,6 +1,8 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
-import { BrowserRouter as Router, Switch, Route, Link, useHistory } from "react-router-dom";
+import { BrowserRouter as Switch, Route, useHistory } from "react-router-dom";
+import Modal from 'react-modal';
+
 
 import "./App.css";
 import ImagesComponent from "./ImagesComponent";
@@ -10,6 +12,7 @@ const App = () => {
   const [listFolders, setListFolders] = React.useState([]);
   const [folderTitleInput, setFolderTitleInput] = React.useState("");
   const [imagesInput, setImagesInput] = React.useState("");
+  const [modalIsOpen,setIsOpen] = React.useState(false);
   const history = useHistory()
 
 
@@ -46,7 +49,13 @@ const App = () => {
       item.id === folder.id ? folder : item
     );
     setListFolders(newArray);
+    setIsOpen(!modalIsOpen);
   };
+
+  function closeModal(){
+    setIsOpen(false);
+  }
+
 
   return (
     <div className="App">
@@ -71,6 +80,11 @@ const App = () => {
                     <button onClick={() => editFolderName(folder.id)}>
                       edit
                     </button>
+                    <Modal isOpen={modalIsOpen} ariaHideApp={false}>
+                      <input />
+                      <button onClick={closeModal}>close</button>
+                      <button>save</button>
+                    </Modal>
                     <button onClick={() => deleteFolder(folder.id)}>
                       delete
                     </button>
