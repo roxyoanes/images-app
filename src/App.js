@@ -1,20 +1,26 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
-import { BrowserRouter as Switch, Route, useHistory } from "react-router-dom";
-import Modal from 'react-modal';
-
+import {
+  BrowserRouter as Switch,
+  Route,
+  Link,
+  useHistory,
+} from "react-router-dom";
+import Modal from "react-modal";
 
 import "./App.css";
 import ImagesComponent from "./ImagesComponent";
+import EditModal from "./EditModal";
 
 const App = () => {
   const [toggle, setToggle] = React.useState(false);
   const [listFolders, setListFolders] = React.useState([]);
   const [folderTitleInput, setFolderTitleInput] = React.useState("");
   const [imagesInput, setImagesInput] = React.useState("");
-  const [modalIsOpen,setIsOpen] = React.useState(false);
-  const history = useHistory()
-
+  const [imagesList, setImagesList] = React.useState([]);
+  const [editInputTitle, setEditInputTitle] = React.useState("");
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const history = useHistory();
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -24,8 +30,13 @@ const App = () => {
     setFolderTitleInput(e.target.value);
   };
 
-  const handleImageInput = (e) => {
-    setImagesInput(e.target.value);
+  const handleImageInput = (f) => {
+    setImagesInput(f.target.value);
+    console.log(imagesInput);
+  };
+
+  const handleEditInput = (g) => {
+    setEditInputTitle(g.target.value);
   };
 
   const addFolder = (e) => {
@@ -33,7 +44,7 @@ const App = () => {
       const folder = {
         id: uuidv4(),
         text: e.target.value,
-        images: e.target.value,
+        images: [],
       };
       setListFolders([...listFolders, folder]);
     }
@@ -44,18 +55,21 @@ const App = () => {
     setListFolders(newArray);
   };
 
-  const editFolderName = (folder) => {
-    const newArray = listFolders.map((item) =>
-      item.id === folder.id ? folder : item
+  const editFolderName = (input) => {
+    const newArray = listFolders.map((element) =>
+      element.id === input.id ? input : element
     );
     setListFolders(newArray);
     setIsOpen(!modalIsOpen);
   };
 
-  function closeModal(){
+  const closeModal = () => {
     setIsOpen(false);
-  }
+  };
 
+  const toggleEditModal = () => {
+    setIsOpen(!modalIsOpen);
+  };
 
   return (
     <div className="App">
@@ -72,23 +86,27 @@ const App = () => {
                 onChange={handleTitleInput}
               />
               <div>
-                {listFolders.map((folder, id) => (
-                  <div key={id}>
+                {listFolders.map((folder) => (
+                  <div key={folder.id}>
                     <p className="list-item" key={folder.id}>
                       {folder.text}
                     </p>
-                    <button onClick={() => editFolderName(folder.id)}>
+                    <button onClick={() => toggleEditModal(folder.id)}>
                       edit
                     </button>
                     <Modal isOpen={modalIsOpen} ariaHideApp={false}>
-                      <input />
-                      <button onClick={closeModal}>close</button>
-                      <button>save</button>
+                      <EditModal
+                        closeModal={closeModal}
+                        handleEditInput={handleEditInput}
+                        editInputTitle={editInputTitle}
+                        editFolderName={editFolderName}
+                        folder={folder}
+                      />
                     </Modal>
                     <button onClick={() => deleteFolder(folder.id)}>
                       delete
                     </button>
-                    <button onClick={() => history.push("/images", { folder })}>enter</button>
+                    <Link to="/images">enter</Link>
                   </div>
                 ))}
               </div>
@@ -98,7 +116,11 @@ const App = () => {
           )}
         </Route>
         <Route path="/images">
-          <ImagesComponent />
+          <ImagesComponent
+            navigateToInitialPage={(folder) => history.push("/", { folder })}
+            imagesInput={imagesInput}
+            handleImageInput={handleImageInput}
+          />
         </Route>
       </Switch>
     </div>
