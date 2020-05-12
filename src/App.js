@@ -28,11 +28,11 @@ const App = () => {
 
   const handleTitleInput = (e) => {
     setFolderTitleInput(e.target.value);
+    
   };
 
   const handleImageInput = (f) => {
     setImagesInput(f.target.value);
-    console.log(imagesInput);
   };
 
   const handleEditInput = (g) => {
@@ -47,6 +47,7 @@ const App = () => {
         images: [],
       };
       setListFolders([...listFolders, folder]);
+      setFolderTitleInput("")
     }
   };
 
@@ -61,6 +62,7 @@ const App = () => {
     );
     setListFolders(newArray);
     setIsOpen(!modalIsOpen);
+    setEditInputTitle("");
   };
 
   const closeModal = () => {

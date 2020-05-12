@@ -6,7 +6,6 @@ const EditModal = ({closeModal, handleEditInput, editInputTitle, editFolderName,
   const handleClick = () => {
     if(editInputTitle){
       editFolderName({ ...folder, text: editInputTitle})
-      console.log(editInputTitle)
     } else{
       return <p>error</p>
     }
