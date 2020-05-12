@@ -5,6 +5,7 @@ import {
   Route,
   Link,
   useHistory,
+  useRouteMatch,
 } from "react-router-dom";
 import Modal from "react-modal";
 
@@ -22,13 +23,14 @@ const App = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const history = useHistory();
 
+  let match = useRouteMatch();
+
   const handleToggle = () => {
     setToggle(!toggle);
   };
 
   const handleTitleInput = (e) => {
     setFolderTitleInput(e.target.value);
-    
   };
 
   const handleImageInput = (f) => {
@@ -108,7 +110,7 @@ const App = () => {
                     <button onClick={() => deleteFolder(folder.id)}>
                       delete
                     </button>
-                    <Link to="/images">enter</Link>
+                    <Link to={`/images/${folder.id}`}>enter</Link>
                   </div>
                 ))}
               </div>
@@ -117,13 +119,13 @@ const App = () => {
             ""
           )}
         </Route>
-        <Route path="/images">
-          <ImagesComponent
-            navigateToInitialPage={(folder) => history.push("/", { folder })}
+        <Route path="/images/:id">
+        <ImagesComponent
             imagesInput={imagesInput}
             handleImageInput={handleImageInput}
           />
         </Route>
+          
       </Switch>
     </div>
   );
