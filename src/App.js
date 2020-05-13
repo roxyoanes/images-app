@@ -5,7 +5,6 @@ import {
   Route,
   Link,
   useHistory,
-  useRouteMatch,
 } from "react-router-dom";
 import Modal from "react-modal";
 
@@ -18,12 +17,9 @@ const App = () => {
   const [listFolders, setListFolders] = React.useState([]);
   const [folderTitleInput, setFolderTitleInput] = React.useState("");
   const [imagesInput, setImagesInput] = React.useState("");
-  const [imagesList, setImagesList] = React.useState([]);
   const [editInputTitle, setEditInputTitle] = React.useState("");
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const history = useHistory();
-
-  let match = useRouteMatch();
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -123,6 +119,8 @@ const App = () => {
         <ImagesComponent
             imagesInput={imagesInput}
             handleImageInput={handleImageInput}
+            listFolders={listFolders}
+            setListFolders={setListFolders}
           />
         </Route>
           
