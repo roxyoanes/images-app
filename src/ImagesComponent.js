@@ -4,24 +4,24 @@ import {
   useParams
 } from "react-router-dom";
 
-
 const ImagesComponent = ({imagesInput, handleImageInput, listFolders, setListFolders}) => {
 
-  const filterImages = (input) => {
-    const newArray = listFolders.map((folder) => folder.id === input.id ? {...folder, images: [...folder.images, imagesInput]} : []);
+  let { id } = useParams();
+
+  const filterImages = (id) => {
+    const newArray = listFolders.map((folder) => folder.id === id ? {...folder, images: [...folder.images, imagesInput]} : folder);
     setListFolders(newArray);
     console.log(newArray);
   }
 
   const handleClick = (folder) => {
     if(imagesInput){
-      filterImages({ id: id, ...folder.images, images: imagesInput})
+      filterImages(id)
     } else{
       return <p>error</p>
     }
   }
  
-  let { id } = useParams();
   return(
     <div>
     <h3>Requested topic ID: {id}</h3>
@@ -29,14 +29,14 @@ const ImagesComponent = ({imagesInput, handleImageInput, listFolders, setListFol
       <Link to="/">Back</Link>
       <input type="url" onChange={handleImageInput} value={imagesInput} placeholder="Insert image URL here" />
       <button onClick={handleClick}>Add</button>
-      {listFolders.map((folder) => (
-        <div key={folder.id}>
+      {listFolders.map((folder) => ( folder.id === id ? 
+        (<div key={id}>
           {folder.images.map((image) => (
-            <div className="image-container">
+            <div key={image} className="image-container">
             <img className="image" src={image} alt="text" />
             </div>
           ))} 
-        </div>
+        </div> ) : null
       ))}
     </div>
   )
