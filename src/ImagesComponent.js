@@ -4,14 +4,14 @@ import {
   useParams
 } from "react-router-dom";
 
-const ImagesComponent = ({imagesInput, handleImageInput, listFolders, setListFolders}) => {
+const ImagesComponent = ({imagesInput, handleImageInput, listFolders, setListFolders, setImagesInput}) => {
 
   let { id } = useParams();
 
   const filterImages = (id) => {
     const newArray = listFolders.map((folder) => folder.id === id ? {...folder, images: [...folder.images, imagesInput]} : folder);
     setListFolders(newArray);
-    console.log(newArray);
+    setImagesInput("");
   }
 
   const handleClick = (folder) => {

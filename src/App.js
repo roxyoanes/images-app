@@ -121,6 +121,7 @@ const App = () => {
             handleImageInput={handleImageInput}
             listFolders={listFolders}
             setListFolders={setListFolders}
+            setImagesInput={setImagesInput}
           />
         </Route>
           
