@@ -21,6 +21,11 @@ const ImagesComponent = ({imagesInput, handleImageInput, listFolders, setListFol
       return <p>error</p>
     }
   }
+
+  const deleteImages = (id) => {
+    const newArray = listFolders.filter((folder) => folder.id !== id);
+    setListFolders(newArray);
+  };
  
   return(
     <div>
@@ -34,6 +39,7 @@ const ImagesComponent = ({imagesInput, handleImageInput, listFolders, setListFol
           {folder.images.map((image) => (
             <div key={image} className="image-container">
             <img className="image" src={image} alt="text" />
+            <button onClick={() => deleteImages(id)}>Delete</button>
             </div>
           ))} 
         </div> ) : null
