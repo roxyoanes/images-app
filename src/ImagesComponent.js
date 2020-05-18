@@ -29,17 +29,16 @@ const ImagesComponent = ({imagesInput, handleImageInput, listFolders, setListFol
  
   return(
     <div>
-    <h3>Requested topic ID: {id}</h3>
-      <p>images</p>
-      <Link to="/">Back</Link>
-      <input type="url" onChange={handleImageInput} value={imagesInput} placeholder="Insert image URL here" />
-      <button onClick={handleClick}>Add</button>
+      <p>Images</p>
+      <Link to="/"><button className="btn">Back</button></Link>
+      <input type="url" className="input-field" onChange={handleImageInput} value={imagesInput} placeholder="Insert image URL here" />
+      <button className="btn" onClick={handleClick}>Add</button>
       {listFolders.map((folder) => ( folder.id === id ? 
-        (<div key={id}>
+        (<div key={id} className="container">
           {folder.images.map((image) => (
             <div key={image} className="image-container">
             <img className="image" src={image} alt="text" />
-            <button onClick={() => deleteImages(id)}>Delete</button>
+            <button className="btn" onClick={() => deleteImages(id)}>Delete</button>
             </div>
           ))} 
         </div> ) : null

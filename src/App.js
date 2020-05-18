@@ -76,22 +76,23 @@ const App = () => {
       <Switch>
         <Route exact path="/">
           <p>Folders</p>
-          <button onClick={handleToggle}>Add folder</button>
+          <button className="btn" onClick={handleToggle}>Add folder</button>
           {toggle ? (
             <div>
               <input
                 type="text"
+                className="input-field"
                 value={folderTitleInput}
                 onKeyDown={addFolder}
                 onChange={handleTitleInput}
               />
               <div>
                 {listFolders.map((folder) => (
-                  <div key={folder.id}>
+                  <div className="folder-container" key={folder.id}>
                     <p className="list-item" key={folder.id}>
                       {folder.text}
                     </p>
-                    <button onClick={() => toggleEditModal(folder.id)}>
+                    <button className="btn" onClick={() => toggleEditModal(folder.id)}>
                       edit
                     </button>
                     <Modal isOpen={modalIsOpen} ariaHideApp={false}>
@@ -103,10 +104,10 @@ const App = () => {
                         folder={folder}
                       />
                     </Modal>
-                    <button onClick={() => deleteFolder(folder.id)}>
+                    <button className="btn" onClick={() => deleteFolder(folder.id)}>
                       delete
                     </button>
-                    <Link to={`/images/${folder.id}`}>enter</Link>
+                    <Link to={`/images/${folder.id}`}><button className="btn">enter</button></Link>
                   </div>
                 ))}
               </div>
