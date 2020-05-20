@@ -11,10 +11,10 @@ const EditModal = ({closeModal, handleEditInput, editInputTitle, editFolderName,
     }
   }
   return(
-    <div>
-      <input type="text" value={editInputTitle} onChange={handleEditInput} />
-      <button onClick={closeModal}>close</button>
-      <button onClick={handleClick}>save</button>
+    <div className="edit-container">
+      <input className="input-field" type="text" value={editInputTitle} onChange={handleEditInput} />
+      <button className="btn" onClick={closeModal}>close</button>
+      <button className="btn" onClick={handleClick}>save</button>
     </div>
   )
 }
